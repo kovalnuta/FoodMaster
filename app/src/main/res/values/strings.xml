@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">FoodMaster</string>
+    <string name="menu">Меню</string>
+    <string name="booking">Бронь</string>
+    <string name="profile">Профиль</string>
+    <string name="settings">Настройки</string>
+    <string name="categories">Категории</string>
+    <string name="popular">Популярное</string>
+    <string name="free_delivery">Бесплатная доставка</string>
+    <string name="order_now">Заказать</string>
+    <string name="search_placeholder">Найти еду</string>
+
+    <!-- Для экрана бронирования -->
+    <string name="booking_title">Бронирование столика</string>
+    <string name="booking_date">Дата</string>
+    <string name="booking_time">Время</string>
+    <string name="booking_seats">Количество гостей</string>
+    <string name="book_btn">Забронировать</string>
+    <string name="profile_title">Личный кабинет</string>
+    <string name="history_title">История заказов</string>
+    <string name="settings_title">Настройки</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="english_lang">English Language</string>
+</resources>
