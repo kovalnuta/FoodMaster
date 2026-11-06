@@ -79,53 +79,79 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
     Scaffold(
         bottomBar = {
             if (currentRoute != "auth" && currentRoute != "settings") {
-                Box(modifier = Modifier.fillMaxWidth().height(80.dp).background(MaterialTheme.colorScheme.surface)) {
-                    Row(modifier = Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
-
-                        BottomNavItemPainter(
-                            icon = painterResource(id = R.drawable.menu_food),
-                            label = stringResource(id = R.string.menu),
-                            isSelected = currentRoute == "menu",
-                            onClick = { navController.navigate("menu") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
-                        )
-
-                        BottomNavItemPainter(
-                            icon = painterResource(id = R.drawable.table4),
-                            label = stringResource(id = R.string.booking),
-                            isSelected = currentRoute == "booking",
-                            onClick = { navController.navigate("booking") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
-                        )
-
-                        Box(
-                            modifier = Modifier
-                                .offset(y = (-16).dp)
-                                .size(64.dp)
-                                .clip(CircleShape)
-                                .background(PrimaryOrange)
-                                .clickable { navController.navigate("cart") { launchSingleTop = true } },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.basket),
-                                contentDescription = "Cart",
-                                tint = Color.White,
-                                modifier = Modifier.size(32.dp)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .background(MaterialTheme.colorScheme.surface)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 1. Меню (слева 1)
+                        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                            BottomNavItemPainter(
+                                icon = painterResource(id = R.drawable.menu_food),
+                                label = stringResource(id = R.string.menu),
+                                isSelected = currentRoute == "menu",
+                                onClick = { navController.navigate("menu") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
                             )
                         }
 
-                        BottomNavItemPainter(
-                            icon = painterResource(id = R.drawable.user_icon),
-                            label = stringResource(id = R.string.profile),
-                            isSelected = currentRoute == "profile",
-                            onClick = { navController.navigate("profile") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
-                        )
+                        // 2. Бронь (слева 2)
+                        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                            BottomNavItemPainter(
+                                icon = painterResource(id = R.drawable.table4),
+                                label = stringResource(id = R.string.booking),
+                                isSelected = currentRoute == "booking",
+                                onClick = { navController.navigate("booking") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
+                            )
+                        }
 
-                        BottomNavItemPainter(
-                            icon = painterResource(id = R.drawable.settings),
-                            label = stringResource(id = R.string.settings),
-                            isSelected = currentRoute == "settings",
-                            onClick = { navController.navigate("settings") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
-                        )
+                        // 3. КОРЗИНА (Идеальный центр)
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(y = (-16).dp), // Поднимаем вверх
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .clip(CircleShape)
+                                    .background(PrimaryOrange)
+                                    .clickable { navController.navigate("cart") { launchSingleTop = true } },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.basket),
+                                    contentDescription = "Cart",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
+                        }
+
+                        // 4. Профиль (справа 1)
+                        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                            BottomNavItemPainter(
+                                icon = painterResource(id = R.drawable.user_icon),
+                                label = stringResource(id = R.string.profile),
+                                isSelected = currentRoute == "profile",
+                                onClick = { navController.navigate("profile") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
+                            )
+                        }
+
+                        // 5. Настройки (справа 2)
+                        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                            BottomNavItemPainter(
+                                icon = painterResource(id = R.drawable.settings),
+                                label = stringResource(id = R.string.settings),
+                                isSelected = currentRoute == "settings",
+                                onClick = { navController.navigate("settings") { popUpTo(navController.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true } }
+                            )
+                        }
                     }
                 }
             }
@@ -157,7 +183,10 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
 @Composable
 fun BottomNavItemPainter(icon: Painter, label: String, isSelected: Boolean, onClick: () -> Unit) {
     Column(
-        modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable { onClick() }.padding(horizontal = 4.dp, vertical = 4.dp),
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .clickable { onClick() }
+            .padding(horizontal = 4.dp, vertical = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
@@ -166,6 +195,11 @@ fun BottomNavItemPainter(icon: Painter, label: String, isSelected: Boolean, onCl
             tint = if (isSelected) PrimaryOrange else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(24.dp)
         )
-        Text(text = label, color = if (isSelected) PrimaryOrange else MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 11.sp, fontFamily = AppFontFamily)
+        Text(
+            text = label,
+            color = if (isSelected) PrimaryOrange else MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 11.sp,
+            fontFamily = AppFontFamily
+        )
     }
 }
