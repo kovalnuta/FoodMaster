@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
@@ -48,7 +50,7 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
 
     var selectedDish by remember { mutableStateOf<Dish?>(null) }
     var quantity by remember { mutableIntStateOf(1) }
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
     if (selectedDish != null) {
@@ -61,10 +63,11 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 32.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Картинка
                 Image(
                     painter = painterResource(id = selectedDish!!.imageRes),
                     contentDescription = selectedDish!!.name,
@@ -75,7 +78,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Название и цена
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -99,7 +101,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Состав
                 Text(
                     text = selectedDish!!.composition,
                     fontSize = 14.sp,
@@ -112,7 +113,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                 HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Итого
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -135,13 +135,11 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Кнопки количества и добавления
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Счетчик (минус, число, плюс)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -172,14 +170,13 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                         }
                     }
 
-                    // Кнопка В корзину
                     Button(
                         onClick = {
                             onAddToCart(selectedDish!!, quantity)
                             scope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (!sheetState.isVisible) {
                                     selectedDish = null
-                                    quantity = 1 // Сбрасываем счетчик
+                                    quantity = 1
                                 }
                             }
                         },
@@ -198,7 +195,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
@@ -228,7 +224,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
             )
         }
 
-        // Баннер
         item {
             Card(
                 modifier = Modifier.fillMaxWidth().height(150.dp),
@@ -249,7 +244,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
             }
         }
 
-        // Категории
         item {
             Text(stringResource(id = R.string.categories), fontSize = 22.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(8.dp))
@@ -270,7 +264,6 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
             }
         }
 
-        // Популярное
         item {
             Text(stringResource(id = R.string.popular), fontSize = 22.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(8.dp))
@@ -279,7 +272,7 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                     Card(
                         modifier = Modifier.width(180.dp).clickable {
                             selectedDish = dish
-                            quantity = 1 // Сбрасываем количество при открытии
+                            quantity = 1
                         },
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
