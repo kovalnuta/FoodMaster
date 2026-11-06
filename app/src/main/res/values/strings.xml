@@ -1,24 +1,72 @@
 <resources>
     <string name="app_name">FoodMaster</string>
+
     <string name="menu">Меню</string>
     <string name="booking">Бронь</string>
     <string name="profile">Профиль</string>
     <string name="settings">Настройки</string>
+
+    <string name="search_placeholder">Найти еду</string>
     <string name="categories">Категории</string>
     <string name="popular">Популярное</string>
     <string name="free_delivery">Бесплатная доставка</string>
     <string name="order_now">Заказать</string>
-    <string name="search_placeholder">Найти еду</string>
+    <string name="delivery_dates">с 30.10 по 30.11</string>
 
-    <!-- Для экрана бронирования -->
+    <string name="cat_pizza">Пицца</string>
+    <string name="cat_burger">Бургер</string>
+    <string name="cat_hotdog">Хот-дог</string>
+    <string name="cat_drink">Напиток</string>
+
+    <string name="dish_pepperoni">Пепперони</string>
+    <string name="dish_pepperoni_desc">Классическая</string>
+    <string name="dish_cheeseburger">Чизбургер</string>
+    <string name="dish_cheeseburger_desc">С сыром и котлетой</string>
+    <string name="dish_hotdog">Хот-дог</string>
+    <string name="dish_hotdog_desc">С горчицей</string>
+
     <string name="booking_title">Бронирование столика</string>
+    <string name="booking_location">Локация</string>
+    <string name="booking_address">Адрес ресторана</string>
     <string name="booking_date">Дата</string>
     <string name="booking_time">Время</string>
     <string name="booking_seats">Количество гостей</string>
+    <string name="booking_place">Желаемое место</string>
     <string name="book_btn">Забронировать</string>
+    <string name="place_window">У окна</string>
+    <string name="place_veranda">На веранде</string>
+    <string name="place_bar">У бара</string>
+    <string name="place_lodge">В лодже</string>
+
+    <string name="cart_title">Корзина</string>
+    <string name="cart_empty">Корзина пуста</string>
+    <string name="cart_total">Итого:</string>
+    <string name="cart_checkout">Оформить заказ</string>
+    <string name="cart_delete">Удалить</string>
+
     <string name="profile_title">Личный кабинет</string>
+    <string name="profile_name">Анна Коваленко</string>
+    <string name="profile_bonus">Золотой клиент • 450 бонусов</string>
+    <string name="profile_balance_title">Ваш баланс бонусов</string>
     <string name="history_title">История заказов</string>
+    <string name="order_num">Заказ</string>
+    <string name="order_date_1">Вчера, 19:30</string>
+    <string name="order_date_2">12 октября</string>
+    <string name="order_date_3">5 октября</string>
+    <string name="order_status_delivered">Доставлен</string>
+    <string name="order_status_cooking">Готовится</string>
+
     <string name="settings_title">Настройки</string>
     <string name="dark_theme">Темная тема</string>
     <string name="english_lang">English Language</string>
+
+    <string name="auth_login_title">Вход в FoodMaster</string>
+    <string name="auth_register_title">Регистрация</string>
+    <string name="auth_name">Ваше имя</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Пароль</string>
+    <string name="auth_login_btn">Войти</string>
+    <string name="auth_register_btn">Зарегистрироваться</string>
+    <string name="auth_no_account">Нет аккаунта? Зарегистрироваться</string>
+    <string name="auth_has_account">Уже есть аккаунт? Войти</string>
 </resources>

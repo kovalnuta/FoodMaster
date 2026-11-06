@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FoodMaster</string>
+
+    <string name="menu">Menu</string>
+    <string name="booking">Booking</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+
+    <string name="search_placeholder">Find Your Food</string>
+    <string name="categories">Categories</string>
+    <string name="popular">Popular</string>
+    <string name="free_delivery">Free Delivery</string>
+    <string name="order_now">Order Now</string>
+    <string name="delivery_dates">Oct 30 - Nov 30</string>
+
+    <string name="cat_pizza">Pizza</string>
+    <string name="cat_burger">Burger</string>
+    <string name="cat_hotdog">Hot-dog</string>
+    <string name="cat_drink">Drink</string>
+
+    <string name="dish_pepperoni">Pepperoni</string>
+    <string name="dish_pepperoni_desc">Classic</string>
+    <string name="dish_cheeseburger">Cheeseburger</string>
+    <string name="dish_cheeseburger_desc">With cheese and patty</string>
+    <string name="dish_hotdog">Hot-dog</string>
+    <string name="dish_hotdog_desc">With mustard</string>
+
+    <string name="booking_title">Table Booking</string>
+    <string name="booking_location">Location</string>
+    <string name="booking_address">Restaurant address</string>
+    <string name="booking_date">Date</string>
+    <string name="booking_time">Time</string>
+    <string name="booking_seats">Number of guests</string>
+    <string name="booking_place">Preferred seat</string>
+    <string name="book_btn">Book a table</string>
+    <string name="place_window">By the window</string>
+    <string name="place_veranda">On the veranda</string>
+    <string name="place_bar">At the bar</string>
+    <string name="place_lodge">In the lodge</string>
+
+    <string name="cart_title">Cart</string>
+    <string name="cart_empty">Your cart is empty</string>
+    <string name="cart_total">Total:</string>
+    <string name="cart_checkout">Checkout</string>
+    <string name="cart_delete">Delete</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="profile_name">Anna Kovalenko</string>
+    <string name="profile_bonus">Gold Client • 450 bonuses</string>
+    <string name="profile_balance_title">Your bonus balance</string>
+    <string name="history_title">Order History</string>
+    <string name="order_num">Order</string>
+    <string name="order_date_1">Yesterday, 19:30</string>
+    <string name="order_date_2">October 12</string>
+    <string name="order_date_3">October 5</string>
+    <string name="order_status_delivered">Delivered</string>
+    <string name="order_status_cooking">Cooking</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="english_lang">English Language</string>
+
+    <string name="auth_login_title">Login to FoodMaster</string>
+    <string name="auth_register_title">Registration</string>
+    <string name="auth_name">Your name</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_login_btn">Login</string>
+    <string name="auth_register_btn">Register</string>
+    <string name="auth_no_account">No account? Register</string>
+    <string name="auth_has_account">Already have an account? Login</string>
+</resources>

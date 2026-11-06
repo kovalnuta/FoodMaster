@@ -1,5 +1,6 @@
 package com.example.foodmaster.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,14 +26,19 @@ import com.example.foodmaster.R
 import com.example.foodmaster.ui.theme.AppFontFamily
 import com.example.foodmaster.ui.theme.PrimaryOrange
 
-data class Order(val id: String, val date: String, val price: String, val status: String)
+data class Order(
+    val id: String,
+    @StringRes val dateResId: Int,
+    val price: String,
+    @StringRes val statusResId: Int
+)
 
 @Composable
 fun ProfileScreen() {
     val userOrders = listOf(
-        Order("№1254", "Вчера, 19:30", "1 500 ₽", "Доставлен"),
-        Order("№1189", "12 октября", "2 300 ₽", "Готовится"),
-        Order("№1050", "5 октября", "890 ₽", "Доставлен")
+        Order("№1254", R.string.order_date_1, "1 500 ₽", R.string.order_status_delivered),
+        Order("№1189", R.string.order_date_2, "2 300 ₽", R.string.order_status_cooking),
+        Order("№1050", R.string.order_date_3, "890 ₽", R.string.order_status_delivered)
     )
 
     LazyColumn(
@@ -49,7 +56,7 @@ fun ProfileScreen() {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.user_icon),
-                    contentDescription = "Аватар",
+                    contentDescription = "Avatar",
                     modifier = Modifier
                         .size(100.dp)
                         .clip(CircleShape)
@@ -60,7 +67,7 @@ fun ProfileScreen() {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Анна Коваленко",
+                    text = stringResource(R.string.profile_name),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = AppFontFamily,
@@ -68,7 +75,7 @@ fun ProfileScreen() {
                 )
 
                 Text(
-                    text = "Золотой клиент • 450 бонусов",
+                    text = stringResource(R.string.profile_bonus),
                     fontSize = 14.sp,
                     color = PrimaryOrange,
                     fontFamily = AppFontFamily,
@@ -92,7 +99,7 @@ fun ProfileScreen() {
                 ) {
                     Column {
                         Text(
-                            text = "Ваш баланс бонусов",
+                            text = stringResource(R.string.profile_balance_title),
                             fontSize = 14.sp,
                             color = Color.White.copy(alpha = 0.8f),
                             fontFamily = AppFontFamily
@@ -117,7 +124,7 @@ fun ProfileScreen() {
 
         item {
             Text(
-                text = "История заказов",
+                text = stringResource(R.string.history_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = AppFontFamily,
@@ -141,7 +148,7 @@ fun ProfileScreen() {
                 ) {
                     Column {
                         Text(
-                            text = "Заказ ${order.id}",
+                            text = "${stringResource(R.string.order_num)} ${order.id}",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = AppFontFamily,
@@ -149,7 +156,7 @@ fun ProfileScreen() {
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = order.date,
+                            text = stringResource(order.dateResId),
                             fontSize = 13.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontFamily = AppFontFamily
@@ -165,9 +172,9 @@ fun ProfileScreen() {
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        val statusColor = if (order.status == "Доставлен") Color(0xFF4CAF50) else PrimaryOrange
+                        val statusColor = if (order.statusResId == R.string.order_status_delivered) Color(0xFF4CAF50) else PrimaryOrange
                         Text(
-                            text = order.status,
+                            text = stringResource(order.statusResId),
                             fontSize = 13.sp,
                             color = statusColor,
                             fontFamily = AppFontFamily,

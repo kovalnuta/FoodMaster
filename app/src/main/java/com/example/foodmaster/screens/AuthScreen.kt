@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,7 +29,7 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.fon1),
-            contentDescription = "Фон",
+            contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
@@ -45,7 +46,7 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = if (isLogin) "Вход в FoodMaster" else "Регистрация",
+                text = stringResource(id = if (isLogin) R.string.auth_login_title else R.string.auth_register_title),
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = AppFontFamily,
@@ -64,7 +65,7 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
                     if (!isLogin) {
                         OutlinedTextField(
                             value = name, onValueChange = { name = it },
-                            label = { Text("Ваше имя", fontFamily = AppFontFamily) },
+                            label = { Text(stringResource(id = R.string.auth_name), fontFamily = AppFontFamily) },
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(16.dp))
@@ -72,14 +73,14 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
 
                     OutlinedTextField(
                         value = email, onValueChange = { email = it },
-                        label = { Text("Email", fontFamily = AppFontFamily) },
+                        label = { Text(stringResource(id = R.string.auth_email), fontFamily = AppFontFamily) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
                     OutlinedTextField(
                         value = password, onValueChange = { password = it },
-                        label = { Text("Пароль", fontFamily = AppFontFamily) },
+                        label = { Text(stringResource(id = R.string.auth_password), fontFamily = AppFontFamily) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(24.dp))
@@ -91,7 +92,7 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
                         colors = ButtonDefaults.buttonColors(containerColor = PrimaryOrange)
                     ) {
                         Text(
-                            text = if (isLogin) "Войти" else "Зарегистрироваться",
+                            text = stringResource(id = if (isLogin) R.string.auth_login_btn else R.string.auth_register_btn),
                             fontFamily = AppFontFamily,
                             fontSize = 18.sp,
                             color = Color.White
@@ -104,7 +105,7 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
 
             TextButton(onClick = { isLogin = !isLogin }) {
                 Text(
-                    text = if (isLogin) "Нет аккаунта? Зарегистрироваться" else "Уже есть аккаунт? Войти",
+                    text = stringResource(id = if (isLogin) R.string.auth_no_account else R.string.auth_has_account),
                     color = Color.White,
                     fontFamily = AppFontFamily,
                     fontSize = 16.sp

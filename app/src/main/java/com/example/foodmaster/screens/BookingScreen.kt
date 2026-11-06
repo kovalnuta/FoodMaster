@@ -31,8 +31,13 @@ fun BookingScreen() {
     var time by remember { mutableStateOf("") }
     var guests by remember { mutableStateOf("") }
 
-    var selectedPlace by remember { mutableStateOf("У окна") }
-    val places = listOf("У окна", "На веранде", "У бара", "В лодже")
+    val places = listOf(
+        stringResource(R.string.place_window),
+        stringResource(R.string.place_veranda),
+        stringResource(R.string.place_bar),
+        stringResource(R.string.place_lodge)
+    )
+    var selectedPlace by remember { mutableStateOf(places[0]) }
 
     Column(
         modifier = Modifier
@@ -50,7 +55,7 @@ fun BookingScreen() {
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        Text("Локация", fontFamily = AppFontFamily, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.booking_location), fontFamily = AppFontFamily, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.height(8.dp))
 
         ExposedDropdownMenuBox(
@@ -61,7 +66,7 @@ fun BookingScreen() {
                 value = selectedRestaurant,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Адрес ресторана", fontFamily = AppFontFamily) },
+                label = { Text(stringResource(R.string.booking_address), fontFamily = AppFontFamily) },
                 leadingIcon = { Icon(Icons.Default.LocationOn, contentDescription = null, tint = PrimaryOrange) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedRestaurant) },
                 modifier = Modifier.fillMaxWidth().menuAnchor(),
@@ -130,7 +135,7 @@ fun BookingScreen() {
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        Text("Желаемое место", fontFamily = AppFontFamily, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.booking_place), fontFamily = AppFontFamily, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.height(12.dp))
 
         FlowRow(

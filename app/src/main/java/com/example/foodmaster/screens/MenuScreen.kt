@@ -30,9 +30,16 @@ import com.example.foodmaster.ui.theme.PrimaryOrange
 @Composable
 fun MenuScreen(onAddToCart: (Dish) -> Unit) {
     val dishes = listOf(
-        Dish("Пепперони", "Классическая", "550 ₽", R.drawable.peperonni),
-        Dish("Чизбургер", "С сыром и котлетой", "350 ₽", R.drawable.cheesburger),
-        Dish("Хот-дог", "С горчицей", "250 ₽", R.drawable.hotdog)
+        Dish(stringResource(R.string.dish_pepperoni), stringResource(R.string.dish_pepperoni_desc), "550 ₽", R.drawable.peperonni),
+        Dish(stringResource(R.string.dish_cheeseburger), stringResource(R.string.dish_cheeseburger_desc), "350 ₽", R.drawable.cheesburger),
+        Dish(stringResource(R.string.dish_hotdog), stringResource(R.string.dish_hotdog_desc), "250 ₽", R.drawable.hotdog)
+    )
+
+    val categories = listOf(
+        stringResource(R.string.cat_pizza) to R.drawable.pizza_icon,
+        stringResource(R.string.cat_burger) to R.drawable.burger_icon,
+        stringResource(R.string.cat_hotdog) to R.drawable.hotdog,
+        stringResource(R.string.cat_drink) to R.drawable.drink1
     )
 
     LazyColumn(
@@ -97,7 +104,7 @@ fun MenuScreen(onAddToCart: (Dish) -> Unit) {
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "с 30.10 по 30.11",
+                            text = stringResource(id = R.string.delivery_dates),
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontFamily = AppFontFamily
@@ -137,12 +144,6 @@ fun MenuScreen(onAddToCart: (Dish) -> Unit) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                val categories = listOf(
-                    "Пицца" to R.drawable.pizza_icon,
-                    "Бургер" to R.drawable.burger_icon,
-                    "Хот-дог" to R.drawable.hotdog,
-                    "Напиток" to R.drawable.drink1
-                )
                 items(categories) { (name, iconRes) ->
                     Card(
                         modifier = Modifier.size(80.dp),

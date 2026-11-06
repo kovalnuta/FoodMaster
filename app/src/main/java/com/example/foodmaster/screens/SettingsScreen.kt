@@ -29,7 +29,12 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
-    var isEnglish by remember { mutableStateOf(Locale.getDefault().language == "en") }
+    val sharedPrefs = context.getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE)
+
+    // Если язык не сохранен, ползунок ориентируется на систему
+    var isEnglish by remember {
+        mutableStateOf(sharedPrefs.getString("app_lang", Locale.getDefault().language) == "en")
+    }
 
     Scaffold(
         topBar = {
@@ -37,7 +42,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(id = R.string.settings_title), fontFamily = AppFontFamily, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Назад")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -62,6 +67,9 @@ fun SettingsScreen(
                         val language = if (checked) "en" else "ru"
                         val locale = Locale(language)
                         Locale.setDefault(locale)
+
+                        sharedPrefs.edit().putString("app_lang", language).apply()
+
                         val config = Configuration(configuration)
                         config.setLocale(locale)
 

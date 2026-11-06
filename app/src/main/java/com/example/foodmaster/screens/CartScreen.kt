@@ -10,10 +10,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foodmaster.Dish
+import com.example.foodmaster.R
 import com.example.foodmaster.ui.theme.AppFontFamily
 import com.example.foodmaster.ui.theme.PrimaryOrange
 
@@ -29,7 +31,7 @@ fun CartScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = "Корзина",
+            text = stringResource(id = R.string.cart_title),
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = AppFontFamily,
@@ -39,7 +41,7 @@ fun CartScreen(
 
         if (cartItems.isEmpty()) {
             Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Text("Корзина пуста", fontFamily = AppFontFamily, fontSize = 18.sp)
+                Text(stringResource(id = R.string.cart_empty), fontFamily = AppFontFamily, fontSize = 18.sp)
             }
         } else {
             LazyColumn(modifier = Modifier.weight(1f)) {
@@ -59,7 +61,11 @@ fun CartScreen(
                                 Text(dish.price, fontSize = 16.sp, color = PrimaryOrange, fontFamily = AppFontFamily)
                             }
                             IconButton(onClick = { onRemoveItem(dish) }) {
-                                Icon(Icons.Default.Delete, contentDescription = "Удалить", tint = PrimaryOrange)
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = stringResource(id = R.string.cart_delete),
+                                    tint = PrimaryOrange
+                                )
                             }
                         }
                     }
@@ -69,7 +75,7 @@ fun CartScreen(
             val total = cartItems.sumOf { it.price.replace(" ₽", "").toIntOrNull() ?: 0 }
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Итого:", fontSize = 20.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily)
+                Text(stringResource(id = R.string.cart_total), fontSize = 20.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily)
                 Text("$total ₽", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = PrimaryOrange, fontFamily = AppFontFamily)
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -79,7 +85,7 @@ fun CartScreen(
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryOrange)
             ) {
-                Text("Оформить заказ", fontFamily = AppFontFamily, fontSize = 18.sp)
+                Text(stringResource(id = R.string.cart_checkout), fontFamily = AppFontFamily, fontSize = 18.sp)
             }
         }
     }

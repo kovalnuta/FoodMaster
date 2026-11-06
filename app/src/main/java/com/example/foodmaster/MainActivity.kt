@@ -1,6 +1,7 @@
 package com.example.foodmaster
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,22 +32,42 @@ import com.example.foodmaster.screens.*
 import com.example.foodmaster.ui.theme.AppFontFamily
 import com.example.foodmaster.ui.theme.FoodMasterTheme
 import com.example.foodmaster.ui.theme.PrimaryOrange
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val sharedPrefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val savedLang = sharedPrefs.getString("app_lang", null)
+
+        if (savedLang == null) {
+            val systemLang = Locale.getDefault().language
+            val locale = Locale(systemLang)
+            Locale.setDefault(locale)
+            val config = Configuration(resources.configuration)
+            config.setLocale(locale)
+            createConfigurationContext(config)
+        } else {
+            val locale = Locale(savedLang)
+            Locale.setDefault(locale)
+            val config = Configuration(resources.configuration)
+            config.setLocale(locale)
+            createConfigurationContext(config)
+        }
+
         enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
-            val sharedPrefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            var isDarkTheme by remember { mutableStateOf(sharedPrefs.getBoolean("is_dark_theme", false)) }
+            val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            var isDarkTheme by remember { mutableStateOf(prefs.getBoolean("is_dark_theme", false)) }
 
             FoodMasterTheme(darkTheme = isDarkTheme) {
                 MainAppScreen(
                     isDarkTheme = isDarkTheme,
                     onThemeChange = {
                         isDarkTheme = it
-                        sharedPrefs.edit().putBoolean("is_dark_theme", it).apply()
+                        prefs.edit().putBoolean("is_dark_theme", it).apply()
                     }
                 )
             }
