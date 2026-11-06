@@ -39,6 +39,14 @@ fun BookingScreen() {
     )
     var selectedPlace by remember { mutableStateOf(places[0]) }
 
+    // ДОБАВЛЕНО: выбор столика
+    val tables = listOf(
+        stringResource(R.string.table_1),
+        stringResource(R.string.table_2),
+        stringResource(R.string.table_3)
+    )
+    var selectedTable by remember { mutableStateOf(tables[0]) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -150,6 +158,42 @@ fun BookingScreen() {
                     label = {
                         Text(
                             text = place,
+                            fontFamily = AppFontFamily,
+                            color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                        )
+                    },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = PrimaryOrange,
+                        containerColor = MaterialTheme.colorScheme.surface
+                    ),
+                    border = FilterChipDefaults.filterChipBorder(
+                        enabled = true,
+                        selected = isSelected,
+                        borderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+                    )
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(28.dp))
+
+        // ДОБАВЛЕНО: Блок выбора столика
+        Text(stringResource(R.string.booking_table), fontFamily = AppFontFamily, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(12.dp))
+
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            tables.forEach { table ->
+                val isSelected = selectedTable == table
+                FilterChip(
+                    selected = isSelected,
+                    onClick = { selectedTable = table },
+                    label = {
+                        Text(
+                            text = table,
                             fontFamily = AppFontFamily,
                             color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal

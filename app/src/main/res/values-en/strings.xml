@@ -70,4 +70,15 @@
     <string name="auth_register_btn">Register</string>
     <string name="auth_no_account">No account? Register</string>
     <string name="auth_has_account">Already have an account? Login</string>
+    <string name="composition">Composition</string>
+    <string name="composition_pepperoni">Dough, tomato sauce, mozzarella, pepperoni, oregano</string>
+    <string name="composition_cheeseburger">Sesame bun, beef patty, cheddar cheese, tomatoes, lettuce, sauce</string>
+    <string name="composition_hotdog">Bun, sausage, mustard, ketchup, onions</string>
+    <string name="close">Close</string>
+    <string name="booking_table">Choose a table</string>
+    <string name="table_1">Table #1 (2 seats)</string>
+    <string name="table_2">Table #2 (4 seats)</string>
+    <string name="table_3">Table #3 (6 seats)</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>

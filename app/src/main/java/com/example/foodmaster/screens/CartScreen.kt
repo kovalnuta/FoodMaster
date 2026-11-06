@@ -58,7 +58,7 @@ fun CartScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(dish.name, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily)
-                                Text(dish.price, fontSize = 16.sp, color = PrimaryOrange, fontFamily = AppFontFamily)
+                                Text("${dish.price} ₽", fontSize = 16.sp, color = PrimaryOrange, fontFamily = AppFontFamily)
                             }
                             IconButton(onClick = { onRemoveItem(dish) }) {
                                 Icon(
@@ -72,7 +72,7 @@ fun CartScreen(
                 }
             }
 
-            val total = cartItems.sumOf { it.price.replace(" ₽", "").toIntOrNull() ?: 0 }
+            val total = cartItems.sumOf { it.price }
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(stringResource(id = R.string.cart_total), fontSize = 20.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily)

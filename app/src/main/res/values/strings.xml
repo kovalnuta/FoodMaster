@@ -69,4 +69,15 @@
     <string name="auth_register_btn">Зарегистрироваться</string>
     <string name="auth_no_account">Нет аккаунта? Зарегистрироваться</string>
     <string name="auth_has_account">Уже есть аккаунт? Войти</string>
+    <string name="composition">Состав</string>
+    <string name="composition_pepperoni">Тесто, томатный соус, сыр моцарелла, пепперони, орегано</string>
+    <string name="composition_cheeseburger">Булочка с кунжутом, котлета из говядины, сыр чеддер, томаты, салат, соус</string>
+    <string name="composition_hotdog">Булочка, сосиска, горчица, кетчуп, лук</string>
+    <string name="close">Закрыть</string>
+    <string name="booking_table">Выберите столик</string>
+    <string name="table_1">Стол №1 (2 места)</string>
+    <string name="table_2">Стол №2 (4 места)</string>
+    <string name="table_3">Стол №3 (6 мест)</string>
+    <string name="total_amount">Итого:</string>
+    <string name="add_to_cart">Добавить в корзину</string>
 </resources>

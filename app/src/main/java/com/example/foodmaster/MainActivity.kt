@@ -89,7 +89,6 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
                         modifier = Modifier.fillMaxSize(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // 1. Меню (слева 1)
                         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                             BottomNavItemPainter(
                                 icon = painterResource(id = R.drawable.menu_food),
@@ -99,7 +98,6 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
                             )
                         }
 
-                        // 2. Бронь (слева 2)
                         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                             BottomNavItemPainter(
                                 icon = painterResource(id = R.drawable.table4),
@@ -109,11 +107,10 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
                             )
                         }
 
-                        // 3. КОРЗИНА (Идеальный центр)
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .offset(y = (-16).dp), // Поднимаем вверх
+                                .offset(y = (-16).dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Box(
@@ -133,7 +130,6 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
                             }
                         }
 
-                        // 4. Профиль (справа 1)
                         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                             BottomNavItemPainter(
                                 icon = painterResource(id = R.drawable.user_icon),
@@ -143,7 +139,6 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
                             )
                         }
 
-                        // 5. Настройки (справа 2)
                         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                             BottomNavItemPainter(
                                 icon = painterResource(id = R.drawable.settings),
@@ -163,9 +158,19 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
                     navController.navigate("menu") { popUpTo("auth") { inclusive = true } }
                 })
             }
-            composable("menu") { MenuScreen(onAddToCart = { dish -> cartItems.add(dish) }) }
+            composable("menu") {
+                MenuScreen(onAddToCart = { dish, quantity ->
+                    repeat(quantity) {
+                        cartItems.add(dish)
+                    }
+                })
+            }
             composable("cart") {
-                CartScreen(cartItems = cartItems, onRemoveItem = { cartItems.remove(it) }, onCheckout = { cartItems.clear() })
+                CartScreen(
+                    cartItems = cartItems,
+                    onRemoveItem = { cartItems.remove(it) },
+                    onCheckout = { cartItems.clear() }
+                )
             }
             composable("booking") { BookingScreen() }
             composable("profile") { ProfileScreen() }
