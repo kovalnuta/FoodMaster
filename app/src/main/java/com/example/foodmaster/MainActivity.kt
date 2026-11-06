@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,29 +39,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPrefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val savedLang = sharedPrefs.getString("app_lang", null)
-
-        if (savedLang == null) {
-            val systemLang = Locale.getDefault().language
-            val locale = Locale(systemLang)
-            Locale.setDefault(locale)
-            val config = Configuration(resources.configuration)
-            config.setLocale(locale)
-            createConfigurationContext(config)
-        } else {
-            val locale = Locale(savedLang)
-            Locale.setDefault(locale)
-            val config = Configuration(resources.configuration)
-            config.setLocale(locale)
-            createConfigurationContext(config)
-        }
+        val systemLang = Locale.getDefault().language
+        val locale = Locale(systemLang)
+        Locale.setDefault(locale)
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+        createConfigurationContext(config)
 
         enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
             val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            var isDarkTheme by remember { mutableStateOf(prefs.getBoolean("is_dark_theme", false)) }
+
+            val systemDarkTheme = isSystemInDarkTheme()
+            var isDarkTheme by remember {
+                mutableStateOf(prefs.getBoolean("is_dark_theme", systemDarkTheme))
+            }
 
             FoodMasterTheme(darkTheme = isDarkTheme) {
                 MainAppScreen(
