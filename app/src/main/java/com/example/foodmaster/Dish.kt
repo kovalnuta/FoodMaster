@@ -5,5 +5,6 @@ data class Dish(
     val description: String,
     val price: Int,
     val imageRes: Int,
-    val composition: String
+    val composition: String,
+    val category: String
 )

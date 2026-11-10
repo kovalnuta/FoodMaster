@@ -38,69 +38,32 @@ fun MenuScreen(
     onAddToCart: (Dish, Int) -> Unit,
     onViewAllPromotions: () -> Unit
 ) {
-    val dishes = listOf(
-        Dish(stringResource(R.string.dish_pepperoni), stringResource(R.string.dish_pepperoni_desc), 550, R.drawable.peperonni, stringResource(R.string.composition_pepperoni)),
-        Dish(stringResource(R.string.dish_cheeseburger), stringResource(R.string.dish_cheeseburger_desc), 350, R.drawable.cheesburger, stringResource(R.string.composition_cheeseburger)),
-        Dish(stringResource(R.string.dish_hotdog), stringResource(R.string.dish_hotdog_desc), 250, R.drawable.hotdog, stringResource(R.string.composition_hotdog))
+
+    val allDishes = listOf(
+        Dish(stringResource(R.string.dish_pepperoni), stringResource(R.string.dish_pepperoni_desc), 550, R.drawable.peperonni, stringResource(R.string.composition_pepperoni), "pizza"),
+        Dish(stringResource(R.string.dish_cheeseburger), stringResource(R.string.dish_cheeseburger_desc), 350, R.drawable.cheesburger, stringResource(R.string.composition_cheeseburger), "burger"),
+        Dish(stringResource(R.string.dish_hotdog), stringResource(R.string.dish_hotdog_desc), 250, R.drawable.hotdog, stringResource(R.string.composition_hotdog), "hotdog")
     )
 
     val categories = listOf(
-        stringResource(R.string.cat_pizza) to R.drawable.pizza_icon,
-        stringResource(R.string.cat_burger) to R.drawable.burger_icon,
-        stringResource(R.string.cat_hotdog) to R.drawable.hotdog,
-        stringResource(R.string.cat_drink) to R.drawable.drink1
+        "pizza" to (stringResource(R.string.cat_pizza) to R.drawable.pizza_icon),
+        "burger" to (stringResource(R.string.cat_burger) to R.drawable.burger_icon),
+        "hotdog" to (stringResource(R.string.cat_hotdog) to R.drawable.hotdog),
+        "drink" to (stringResource(R.string.cat_drink) to R.drawable.drink1)
     )
+
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
+
+    val filteredDishes = if (selectedCategory == null) {
+        allDishes
+    } else {
+        allDishes.filter { it.category == selectedCategory }
+    }
 
     var selectedDish by remember { mutableStateOf<Dish?>(null) }
     var quantity by remember { mutableIntStateOf(1) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-
-    // Состояния для отзыва
-    var showReviewDialog by remember { mutableStateOf(false) }
-    var reviewName by remember { mutableStateOf("") }
-    var reviewText by remember { mutableStateOf("") }
-
-    if (showReviewDialog) {
-        AlertDialog(
-            onDismissRequest = { showReviewDialog = false },
-            title = { Text(stringResource(R.string.leave_review), fontFamily = AppFontFamily, fontWeight = FontWeight.Bold) },
-            text = {
-                Column {
-                    OutlinedTextField(
-                        value = reviewName,
-                        onValueChange = { reviewName = it },
-                        label = { Text(stringResource(R.string.your_name), fontFamily = AppFontFamily) },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = reviewText,
-                        onValueChange = { reviewText = it },
-                        label = { Text(stringResource(R.string.your_review), fontFamily = AppFontFamily) },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    // Здесь потом будет сохранение отзыва
-                    showReviewDialog = false
-                    reviewName = ""
-                    reviewText = ""
-                }) {
-                    Text(stringResource(R.string.send), color = PrimaryOrange, fontFamily = AppFontFamily, fontWeight = FontWeight.Bold)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showReviewDialog = false }) {
-                    Text(stringResource(R.string.cancel), color = Color.Gray, fontFamily = AppFontFamily)
-                }
-            },
-            containerColor = MaterialTheme.colorScheme.surface
-        )
-    }
 
     if (selectedDish != null) {
         ModalBottomSheet(
@@ -310,20 +273,41 @@ fun MenuScreen(
             }
         }
 
+        // ОБНОВЛЕННЫЙ БЛОК КАТЕГОРИЙ С ФИЛЬТРАЦИЕЙ
         item {
             Text(stringResource(id = R.string.categories), fontSize = 22.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(8.dp))
             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(categories) { (name, iconRes) ->
+                items(categories) { (catId, catData) ->
+                    val (name, iconRes) = catData
+                    val isSelected = selectedCategory == catId
+
                     Card(
-                        modifier = Modifier.size(80.dp),
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clickable {
+                                // Если нажали на уже выбранную — сбрасываем фильтр
+                                selectedCategory = if (isSelected) null else catId
+                            },
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        // Выбранная категория становится оранжевой
+                        colors = CardDefaults.cardColors(
+                            containerColor = if (isSelected) PrimaryOrange else MaterialTheme.colorScheme.surface
+                        )
                     ) {
                         Column(modifier = Modifier.fillMaxSize().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            Image(painter = painterResource(id = iconRes), contentDescription = name, modifier = Modifier.size(40.dp))
+                            Image(
+                                painter = painterResource(id = iconRes),
+                                contentDescription = name,
+                                modifier = Modifier.size(40.dp)
+                            )
                             Spacer(modifier = Modifier.height(4.dp))
-                            Text(name, fontFamily = AppFontFamily, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+                            Text(
+                                text = name,
+                                fontFamily = AppFontFamily,
+                                fontSize = 12.sp,
+                                color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
+                            )
                         }
                     }
                 }
@@ -334,7 +318,8 @@ fun MenuScreen(
             Text(stringResource(id = R.string.popular), fontSize = 22.sp, fontWeight = FontWeight.Bold, fontFamily = AppFontFamily, color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.height(8.dp))
             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(dishes) { dish ->
+                // ИСПОЛЬЗУЕМ ОТФИЛЬТРОВАННЫЙ СПИСОК
+                items(filteredDishes) { dish ->
                     Card(
                         modifier = Modifier.width(180.dp).clickable {
                             selectedDish = dish
@@ -367,7 +352,7 @@ fun MenuScreen(
                     fontFamily = AppFontFamily,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                TextButton(onClick = { showReviewDialog = true }) {
+                TextButton(onClick = { }) {
                     Text(
                         text = stringResource(R.string.leave_review),
                         color = PrimaryOrange,

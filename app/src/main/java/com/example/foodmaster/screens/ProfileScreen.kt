@@ -3,7 +3,6 @@ package com.example.foodmaster.screens
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -113,7 +112,7 @@ fun ProfileScreen(
                             .padding(16.dp),
                         contentScale = ContentScale.Fit
                     )
-                    // Кнопка редактирования
+
                     IconButton(
                         onClick = {
                             tempName = userName
@@ -121,10 +120,15 @@ fun ProfileScreen(
                             showEditDialog = true
                         },
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(26.dp)
                             .background(PrimaryOrange, CircleShape)
                     ) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit", tint = Color.White, modifier = Modifier.size(16.dp))
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit",
+                            tint = Color.White,
+                            modifier = Modifier.size(14.dp)
+                        )
                     }
                 }
 
@@ -138,7 +142,6 @@ fun ProfileScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                // Отображение телефона (если есть)
                 if (userPhone.isNotEmpty()) {
                     Text(
                         text = userPhone,
