@@ -3,6 +3,7 @@ package com.example.foodmaster
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -75,10 +76,11 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
     val cartItems = remember { mutableStateListOf<Dish>() }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val context = LocalContext.current
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != "auth" && currentRoute != "settings") {
+            if (currentRoute != "auth" && currentRoute != "settings" && currentRoute != "promotions") {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -152,36 +154,18 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
             }
         }
     ) { innerPadding ->
-        NavHost(navController = navController, startDestination = "auth", modifier = Modifier.padding(innerPadding)) {
-            composable("auth") {
-                AuthScreen(onLoginSuccess = {
-                    navController.navigate("menu") { popUpTo("auth") { inclusive = true } }
-                })
-            }
-            composable("menu") {
-                MenuScreen(onAddToCart = { dish, quantity ->
-                    repeat(quantity) {
-                        cartItems.add(dish)
-                    }
-                })
-            }
-            composable("cart") {
-                CartScreen(
-                    cartItems = cartItems,
-                    onRemoveItem = { cartItems.remove(it) },
-                    onCheckout = { cartItems.clear() }
-                )
-            }
-            composable("booking") { BookingScreen() }
-            composable("profile") { ProfileScreen() }
-            composable("settings") {
-                SettingsScreen(
-                    onBackClick = { navController.popBackStack() },
-                    isDarkTheme = isDarkTheme,
-                    onThemeChange = onThemeChange
-                )
-            }
-        }
+        // ИСПРАВЛЕНО: Теперь innerPadding передается в NavHost через Modifier.padding
+        AppNavHost(
+            navController = navController,
+            cartItems = cartItems,
+            isDarkTheme = isDarkTheme,
+            onThemeChange = onThemeChange,
+            onCheckout = {
+                cartItems.clear()
+                Toast.makeText(context, "Заказ оформлен!", Toast.LENGTH_SHORT).show()
+            },
+            modifier = Modifier.padding(innerPadding) // <--- ВОТ ЭТА СТРОКА
+        )
     }
 }
 

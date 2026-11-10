@@ -81,4 +81,12 @@
     <string name="table_3">Table #3 (6 seats)</string>
     <string name="total_amount">Total Amount</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="auth_phone">Phone number</string>
+    <string name="promotions_title">Promotions &amp; Offers</string>
+    <string name="view_all">View All</string>
+    <string name="leave_review">Leave a review</string>
+    <string name="your_name">Your name</string>
+    <string name="your_review">Review text</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
 </resources>

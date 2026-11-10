@@ -80,4 +80,12 @@
     <string name="table_3">Стол №3 (6 мест)</string>
     <string name="total_amount">Итого:</string>
     <string name="add_to_cart">Добавить в корзину</string>
+    <string name="auth_phone">Номер телефона</string>
+    <string name="promotions_title">Акции &amp; спецпредложения</string>
+    <string name="view_all">Смотреть все</string>
+    <string name="leave_review">Оставить отзыв</string>
+    <string name="your_name">Ваше имя</string>
+    <string name="your_review">Текст отзыва</string>
+    <string name="send">Отправить</string>
+    <string name="cancel">Отмена</string>
 </resources>

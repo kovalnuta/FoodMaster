@@ -34,7 +34,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
+fun MenuScreen(
+    onAddToCart: (Dish, Int) -> Unit,
+    onViewAllPromotions: () -> Unit
+) {
     val dishes = listOf(
         Dish(stringResource(R.string.dish_pepperoni), stringResource(R.string.dish_pepperoni_desc), 550, R.drawable.peperonni, stringResource(R.string.composition_pepperoni)),
         Dish(stringResource(R.string.dish_cheeseburger), stringResource(R.string.dish_cheeseburger_desc), 350, R.drawable.cheesburger, stringResource(R.string.composition_cheeseburger)),
@@ -52,6 +55,52 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
     var quantity by remember { mutableIntStateOf(1) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
+
+    // Состояния для отзыва
+    var showReviewDialog by remember { mutableStateOf(false) }
+    var reviewName by remember { mutableStateOf("") }
+    var reviewText by remember { mutableStateOf("") }
+
+    if (showReviewDialog) {
+        AlertDialog(
+            onDismissRequest = { showReviewDialog = false },
+            title = { Text(stringResource(R.string.leave_review), fontFamily = AppFontFamily, fontWeight = FontWeight.Bold) },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        value = reviewName,
+                        onValueChange = { reviewName = it },
+                        label = { Text(stringResource(R.string.your_name), fontFamily = AppFontFamily) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = reviewText,
+                        onValueChange = { reviewText = it },
+                        label = { Text(stringResource(R.string.your_review), fontFamily = AppFontFamily) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    // Здесь потом будет сохранение отзыва
+                    showReviewDialog = false
+                    reviewName = ""
+                    reviewText = ""
+                }) {
+                    Text(stringResource(R.string.send), color = PrimaryOrange, fontFamily = AppFontFamily, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showReviewDialog = false }) {
+                    Text(stringResource(R.string.cancel), color = Color.Gray, fontFamily = AppFontFamily)
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    }
 
     if (selectedDish != null) {
         ModalBottomSheet(
@@ -90,13 +139,19 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                         fontFamily = AppFontFamily,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Text(
-                        text = "${selectedDish!!.price} ₽",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = PrimaryOrange,
-                        fontFamily = AppFontFamily
-                    )
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(
+                            text = "${selectedDish!!.price} ₽",
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = PrimaryOrange,
+                            fontFamily = AppFontFamily
+                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("★", color = PrimaryOrange, fontSize = 12.sp)
+                            Text(" 4.9 (25)", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -242,6 +297,17 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                     Image(painter = painterResource(id = R.drawable.delivery2), contentDescription = "Delivery", modifier = Modifier.size(130.dp).padding(start = 8.dp), contentScale = ContentScale.Fit)
                 }
             }
+
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                TextButton(onClick = onViewAllPromotions) {
+                    Text(
+                        text = stringResource(R.string.view_all),
+                        color = PrimaryOrange,
+                        fontFamily = AppFontFamily,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
 
         item {
@@ -284,6 +350,60 @@ fun MenuScreen(onAddToCart: (Dish, Int) -> Unit) {
                             Text("${dish.price} ₽", fontFamily = AppFontFamily, color = PrimaryOrange, fontSize = 16.sp)
                         }
                     }
+                }
+            }
+        }
+
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Отзывы гостей",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = AppFontFamily,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                TextButton(onClick = { showReviewDialog = true }) {
+                    Text(
+                        text = stringResource(R.string.leave_review),
+                        color = PrimaryOrange,
+                        fontFamily = AppFontFamily,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("★★★★★", color = PrimaryOrange, fontSize = 14.sp)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Анна К.", fontWeight = FontWeight.Bold, fontFamily = AppFontFamily)
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text("Очень вкусная пицца, привезли быстро и горячей!", fontSize = 13.sp, fontFamily = AppFontFamily, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("★★★★☆", color = PrimaryOrange, fontSize = 14.sp)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Иван С.", fontWeight = FontWeight.Bold, fontFamily = AppFontFamily)
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text("Бургеры супер, но ждал чуть дольше обычного.", fontSize = 13.sp, fontFamily = AppFontFamily, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }

@@ -180,6 +180,18 @@ fun ProfileScreen() {
                             fontFamily = AppFontFamily,
                             fontWeight = FontWeight.Medium
                         )
+                        TextButton(
+                            onClick = { },
+                            contentPadding = PaddingValues(0.dp),
+                            modifier = Modifier.height(24.dp)
+                        ) {
+                            Text(
+                                "Чек",
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontFamily = AppFontFamily
+                            )
+                        }
                     }
                 }
             }

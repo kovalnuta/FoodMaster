@@ -39,7 +39,7 @@ fun BookingScreen() {
     )
     var selectedPlace by remember { mutableStateOf(places[0]) }
 
-    // ДОБАВЛЕНО: выбор столика
+
     val tables = listOf(
         stringResource(R.string.table_1),
         stringResource(R.string.table_2),
@@ -178,7 +178,7 @@ fun BookingScreen() {
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        // ДОБАВЛЕНО: Блок выбора столика
+
         Text(stringResource(R.string.booking_table), fontFamily = AppFontFamily, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.height(12.dp))
 

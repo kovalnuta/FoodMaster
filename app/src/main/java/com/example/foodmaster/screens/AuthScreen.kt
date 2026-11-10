@@ -25,6 +25,7 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") } // ДОБАВЛЕНА ПЕРЕМЕННАЯ
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -63,9 +64,18 @@ fun AuthScreen(onLoginSuccess: () -> Unit) {
                 Column(modifier = Modifier.padding(24.dp)) {
 
                     if (!isLogin) {
+
                         OutlinedTextField(
                             value = name, onValueChange = { name = it },
                             label = { Text(stringResource(id = R.string.auth_name), fontFamily = AppFontFamily) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+
+                        OutlinedTextField(
+                            value = phone, onValueChange = { phone = it },
+                            label = { Text(stringResource(id = R.string.auth_phone), fontFamily = AppFontFamily) },
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(16.dp))
