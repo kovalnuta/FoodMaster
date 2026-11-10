@@ -3,15 +3,17 @@ package com.example.foodmaster.screens
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,12 +36,58 @@ data class Order(
 )
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    userName: String,
+    userPhone: String,
+    onSaveProfile: (String, String) -> Unit
+) {
+    var showEditDialog by remember { mutableStateOf(false) }
+    var tempName by remember { mutableStateOf(userName) }
+    var tempPhone by remember { mutableStateOf(userPhone) }
+
     val userOrders = listOf(
         Order("№1254", R.string.order_date_1, "1 500 ₽", R.string.order_status_delivered),
         Order("№1189", R.string.order_date_2, "2 300 ₽", R.string.order_status_cooking),
         Order("№1050", R.string.order_date_3, "890 ₽", R.string.order_status_delivered)
     )
+
+    if (showEditDialog) {
+        AlertDialog(
+            onDismissRequest = { showEditDialog = false },
+            title = { Text(stringResource(R.string.edit_profile), fontFamily = AppFontFamily, fontWeight = FontWeight.Bold) },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        value = tempName,
+                        onValueChange = { tempName = it },
+                        label = { Text(stringResource(R.string.edit_name), fontFamily = AppFontFamily) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = tempPhone,
+                        onValueChange = { tempPhone = it },
+                        label = { Text(stringResource(R.string.edit_phone), fontFamily = AppFontFamily) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    onSaveProfile(tempName, tempPhone)
+                    showEditDialog = false
+                }) {
+                    Text(stringResource(R.string.save), color = PrimaryOrange, fontFamily = AppFontFamily, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showEditDialog = false }) {
+                    Text(stringResource(R.string.cancel), color = Color.Gray, fontFamily = AppFontFamily)
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -54,25 +102,51 @@ fun ProfileScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.user_icon),
-                    contentDescription = "Avatar",
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                        .padding(16.dp),
-                    contentScale = ContentScale.Fit
-                )
+                Box(contentAlignment = Alignment.BottomEnd) {
+                    Image(
+                        painter = painterResource(id = R.drawable.user_icon),
+                        contentDescription = "Avatar",
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(16.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    // Кнопка редактирования
+                    IconButton(
+                        onClick = {
+                            tempName = userName
+                            tempPhone = userPhone
+                            showEditDialog = true
+                        },
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(PrimaryOrange, CircleShape)
+                    ) {
+                        Icon(Icons.Default.Edit, contentDescription = "Edit", tint = Color.White, modifier = Modifier.size(16.dp))
+                    }
+                }
+
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = stringResource(R.string.profile_name),
+                    text = userName,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = AppFontFamily,
                     color = MaterialTheme.colorScheme.onBackground
                 )
+
+                // Отображение телефона (если есть)
+                if (userPhone.isNotEmpty()) {
+                    Text(
+                        text = userPhone,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontFamily = AppFontFamily
+                    )
+                }
 
                 Text(
                     text = stringResource(R.string.profile_bonus),

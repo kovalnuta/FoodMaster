@@ -26,8 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.foodmaster.screens.*
@@ -74,6 +72,11 @@ class MainActivity : ComponentActivity() {
 fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
     val navController = rememberNavController()
     val cartItems = remember { mutableStateListOf<Dish>() }
+
+    // ДОБАВЛЕНО: Данные профиля пользователя
+    var userName by remember { mutableStateOf("Анна Коваленко") }
+    var userPhone by remember { mutableStateOf("+7 (999) 123-45-67") }
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val context = LocalContext.current
@@ -154,17 +157,22 @@ fun MainAppScreen(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
             }
         }
     ) { innerPadding ->
-        // ИСПРАВЛЕНО: Теперь innerPadding передается в NavHost через Modifier.padding
         AppNavHost(
             navController = navController,
             cartItems = cartItems,
+            userName = userName,
+            userPhone = userPhone,
+            onSaveProfile = { newName, newPhone ->
+                userName = newName
+                userPhone = newPhone
+            },
             isDarkTheme = isDarkTheme,
             onThemeChange = onThemeChange,
             onCheckout = {
                 cartItems.clear()
                 Toast.makeText(context, "Заказ оформлен!", Toast.LENGTH_SHORT).show()
             },
-            modifier = Modifier.padding(innerPadding) // <--- ВОТ ЭТА СТРОКА
+            modifier = Modifier.padding(innerPadding)
         )
     }
 }

@@ -12,6 +12,9 @@ import com.example.foodmaster.screens.*
 fun AppNavHost(
     navController: NavHostController,
     cartItems: MutableList<Dish>,
+    userName: String,
+    userPhone: String,
+    onSaveProfile: (String, String) -> Unit,
     isDarkTheme: Boolean,
     onThemeChange: (Boolean) -> Unit,
     onCheckout: () -> Unit,
@@ -45,7 +48,15 @@ fun AppNavHost(
             )
         }
         composable("booking") { BookingScreen() }
-        composable("profile") { ProfileScreen() }
+
+        composable("profile") {
+            ProfileScreen(
+                userName = userName,
+                userPhone = userPhone,
+                onSaveProfile = onSaveProfile
+            )
+        }
+
         composable("settings") {
             SettingsScreen(
                 onBackClick = { navController.popBackStack() },

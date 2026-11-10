@@ -88,4 +88,8 @@
     <string name="your_review">Текст отзыва</string>
     <string name="send">Отправить</string>
     <string name="cancel">Отмена</string>
+    <string name="edit_profile">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="edit_name">Имя</string>
+    <string name="edit_phone">Телефон</string>
 </resources>
